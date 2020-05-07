@@ -1,14 +1,22 @@
-import React, {useState} from "react";
-import {useHttp} from "../fooks/http.hook";
+import React, {useEffect, useState} from "react";
+import {useHttp} from "../hooks/http.hook";
+import {useMessage} from "../hooks/message.hook";
 
 
 export const AuthPage = () => {
 
-  const {loading, request} = useHttp()
+  const message = useMessage()
+
+  const {loading, error, request, clearError} = useHttp()
 
   const [form, setForm] = useState({
     email: '', password: ''
   })
+
+  useEffect(() => {
+    message(error)
+    clearError()
+  }, [error, message, clearError]) // буду следить за ошибкой, со помощью error
 
   const changeHandler = event => {
     setForm({...form, [event.target.name]: event.target.value}) // с помощью оператора ...form разварациваю все что касаеться form, дальше для того чтобы определить какое именно поле я меняю я обращаюсь к [-||-]: -||-

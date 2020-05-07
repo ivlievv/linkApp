@@ -31,7 +31,7 @@ export const useHttp = () => {
     }
   }, []) // useCallback принемает вторим параметром deps, по этому []
 
-  const clearError = () => setError(null) // функция которая будет чистить ошибки
+  const clearError = useCallback(() => setError(null),[]) // функция которая будет чистить ошибки
 
   return {loading, request, error, clearError}
 
