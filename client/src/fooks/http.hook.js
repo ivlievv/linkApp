@@ -1,12 +1,18 @@
-import {useStete, useCallback} from 'react' //useCallback исп. для того чтобы реакт не входил в рекурсию
+import {useState, useCallback} from 'react' //useCallback исп. для того чтобы реакт не входил в рекурсию
 
 export const useHttp = () => {
-  const [loading, setLoading] = useStete(false) // с помощью даного хука буду опредилять грузится ли чтото с сервера или нет
-  const [error, setError] = useStete(null)
+  const [loading, setLoading] = useState(false) // с помощью даного хука буду опредилять грузится ли чтото с сервера или нет
+  const [error, setError] = useState(null)
 
   const request = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
     setLoading(true) // когда мы начинаем делать запрос setLoading(true), тоисть запрос пошел
     try {
+
+      if (body){
+        body = JSON.stringify(body) // когда мы работаем с json тонам нужно указать то мы передаем json
+        headers['Content-Type'] = 'application/json' // и делается ето так
+      }
+
       const response = await fetch(url, {method, body, headers}) // когда дождался чт делается запрос на сервер, получаю респонс и его нужно распарсить
       const data = await response.json()
 

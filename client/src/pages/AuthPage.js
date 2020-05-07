@@ -4,15 +4,25 @@ import {useHttp} from "../fooks/http.hook";
 
 export const AuthPage = () => {
 
-  const {loading, error, request} = useHttp()
+  const {loading, request} = useHttp()
 
   const [form, setForm] = useState({
     email: '', password: ''
   })
 
-  const changeHandler = event =>{
-    setForm({...form,[event.target.name]: event.target.value}) // с помощью оператора ...form разварациваю все что касаеться form, дальше для того чтобы определить какое именно поле я меняю я обращаюсь к [-||-]: -||-
+  const changeHandler = event => {
+    setForm({...form, [event.target.name]: event.target.value}) // с помощью оператора ...form разварациваю все что касаеться form, дальше для того чтобы определить какое именно поле я меняю я обращаюсь к [-||-]: -||-
   }
+
+  const registerHandler = async () => {
+    try {
+      const data = await request('api/auth/register', 'POST', {...form}) // получаю data которая прилетает с сервера и жду пока выполниться request с необходимыми параметрами ('api/auth/register', 'POST', {...form}) 1. url 'api/auth/register' - которую осуществили на бэке. 2. это метод. 3. передаем ту дату которую мы хотим передать на сервер, на сервер мы должны передавать имейл и пароль, по жтому разварачиваем ...form
+      console.log('Data', data)
+    } catch (e) {
+
+    }
+  }
+
 
   return (
      <div className="row">
@@ -45,8 +55,20 @@ export const AuthPage = () => {
              </div>
            </div>
            <div className="card-action">
-             <span className="btn yellow darken-4" style={{marginRight: 10}}>Войти</span>
-             <span className="btn grey lighten-1 black-text">Регистрация</span>
+             <span
+                className="btn yellow darken-4"
+                style={{marginRight: 10}}
+                disabled={loading}
+             >
+               Войти
+             </span>
+             <span
+                className="btn grey lighten-1 black-text"
+                onClick={registerHandler}
+                disabled={loading} // блокируем кнопки когда loading
+             >
+               Регистрация
+             </span>
            </div>
          </div>
        </div>
