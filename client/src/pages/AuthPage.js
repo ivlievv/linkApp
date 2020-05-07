@@ -7,7 +7,7 @@ export const AuthPage = () => {
 
   const message = useMessage()
 
-  const {loading, error, request, clearError} = useHttp()
+  const {loading, request, error, clearError} = useHttp()
 
   const [form, setForm] = useState({
     email: '', password: ''
@@ -25,7 +25,7 @@ export const AuthPage = () => {
   const registerHandler = async () => {
     try {
       const data = await request('api/auth/register', 'POST', {...form}) // получаю data которая прилетает с сервера и жду пока выполниться request с необходимыми параметрами ('api/auth/register', 'POST', {...form}) 1. url 'api/auth/register' - которую осуществили на бэке. 2. это метод. 3. передаем ту дату которую мы хотим передать на сервер, на сервер мы должны передавать имейл и пароль, по жтому разварачиваем ...form
-      console.log('Data', data)
+      message(data.message)
     } catch (e) {
 
     }
