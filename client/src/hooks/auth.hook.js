@@ -1,18 +1,18 @@
-import {useCallback, useEffect, useState} from 'react'
+import {useState, useCallback, useEffect } from 'react'
 
 const storageName = 'userData'
 
 export const useAuth = () => { // в этой функции я экспортирую различние методы позволяющие пользователю зайти в систему либо выйти с неё
 
-  const {token, setToken} = useState(null)
-  const {userId, setUserId} = useState(null)
+  const [token, setToken] = useState(null)
+  const [userId, setUserId] = useState(null)
 
   const login = useCallback((jwtToken, id) => {
     setToken(jwtToken)
     setUserId(id)
 
     localStorage.setItem(storageName, JSON.stringify({
-      userId, token
+      userId: id, token: jwtToken
     }))
   }, [])
 

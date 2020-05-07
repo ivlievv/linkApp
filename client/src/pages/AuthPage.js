@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useHttp} from "../hooks/http.hook";
 import {useMessage} from "../hooks/message.hook";
+import {AuthContext} from "../context/AuthContext";
 
 
 export const AuthPage = () => {
-
+  const auth = useContext(AuthContext) // теперь в этом обьекте есть все данные которые я передаю в провайдере
   const message = useMessage()
-
   const {loading, request, error, clearError} = useHttp()
 
   const [form, setForm] = useState({
@@ -24,15 +24,16 @@ export const AuthPage = () => {
 
   const registerHandler = async () => {
     try {
-      const data = await request('api/auth/register', 'POST', {...form}) // получаю data которая прилетает с сервера и жду пока выполниться request с необходимыми параметрами ('api/auth/register', 'POST', {...form}) 1. url 'api/auth/register' - которую осуществили на бэке. 2. это метод. 3. передаем ту дату которую мы хотим передать на сервер, на сервер мы должны передавать имейл и пароль, по жтому разварачиваем ...form
+      const data = await request('/api/auth/register', 'POST', {...form}) // получаю data которая прилетает с сервера и жду пока выполниться request с необходимыми параметрами ('api/auth/register', 'POST', {...form}) 1. url 'api/auth/register' - которую осуществили на бэке. 2. это метод. 3. передаем ту дату которую мы хотим передать на сервер, на сервер мы должны передавать имейл и пароль, по жтому разварачиваем ...form
       message(data.message)
-    } catch (e) {}
+    } catch (e) {
+    }
   }
 
   const loginHandler = async () => {
     try {
-      const data = await request('api/auth/login', 'POST', {...form}) // получаю data которая прилетает с сервера и жду пока выполниться request с необходимыми параметрами ('api/auth/register', 'POST', {...form}) 1. url 'api/auth/register' - которую осуществили на бэке. 2. это метод. 3. передаем ту дату которую мы хотим передать на сервер, на сервер мы должны передавать имейл и пароль, по жтому разварачиваем ...form
-      message(data.message)
+      const data = await request('/api/auth/login', 'POST', {...form}) // получаю data которая прилетает с сервера и жду пока выполниться request с необходимыми параметрами ('api/auth/register', 'POST', {...form}) 1. url 'api/auth/register' - которую осуществили на бэке. 2. это метод. 3. передаем ту дату которую мы хотим передать на сервер, на сервер мы должны передавать имейл и пароль, по жтому разварачиваем ...form
+      auth.login(data.token, data.userId)
     } catch (e) {}
   }
 
@@ -50,6 +51,7 @@ export const AuthPage = () => {
                     placeholder="Введите Email"
                     id="email"
                     type="text"
+                    value={form.email}
                     name="email" // и посл за счет того что на каждом input есть name то я буду менять либо имейл либо пароль с помошью метода change....
                     onChange={changeHandler}
                  />
@@ -61,6 +63,7 @@ export const AuthPage = () => {
                     id="password"
                     type="password"
                     name="password"
+                    value={form.password}
                     onChange={changeHandler}
                  />
                  <label htmlFor="password">Пароль</label>

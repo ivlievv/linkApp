@@ -1,19 +1,25 @@
 import React from 'react';
+import {BrowserRouter as Router} from 'react-router-dom'
 import {useRoutes} from "./routes";
 import {useAuth} from "./hooks/auth.hook";
-import {BrowserRouter as Router} from 'react-router-dom'
+import {AuthContext} from "./context/AuthContext";
 import 'materialize-css';
 
 function App () {
-  const {token, login, userId, logout} = useAuth()
-  const routes = useRoutes(false)
+  const {token, login, logout, userId } = useAuth() // теперь жно передавать эти данные {token, login, userId, logout} через контекст всему нашему приложению
+  const isAuthenticated = !!token // это говорит о том зарегистрирован сейчас пользователь или нет, а это опредиляется по аличию токена, !!- значит что я его привожу к bool
+  const routes = useRoutes(isAuthenticated)
   return (
-     <Router>
-       <div className="container">
-         {routes}
-       </div>
-     </Router>
-
+     <AuthContext.Provider value={{ // см. коментарии в ./context/AuthContext
+       token, login, logout, userId, isAuthenticated
+     }
+     }>
+       <Router>
+         <div className="container">
+           {routes}
+         </div>
+       </Router>
+     </AuthContext.Provider>
   );
 }
 
