@@ -18,6 +18,10 @@ export const AuthPage = () => {
     clearError()
   }, [error, message, clearError]) // буду следить за ошибкой, со помощью error
 
+  useEffect(() => { //делает активными инпуты на странице авторизации
+    window.M.updateTextFields()
+  },[])
+
   const changeHandler = event => {
     setForm({...form, [event.target.name]: event.target.value}) // с помощью оператора ...form разварациваю все что касаеться form, дальше для того чтобы определить какое именно поле я меняю я обращаюсь к [-||-]: -||-
   }

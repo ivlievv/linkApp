@@ -4,6 +4,7 @@ import {useRoutes} from "./routes";
 import {useAuth} from "./hooks/auth.hook";
 import {AuthContext} from "./context/AuthContext";
 import 'materialize-css';
+import {NavBar} from "./components/Navbar";
 
 function App () {
   const {token, login, logout, userId } = useAuth() // теперь жно передавать эти данные {token, login, userId, logout} через контекст всему нашему приложению
@@ -15,6 +16,7 @@ function App () {
      }
      }>
        <Router>
+         {isAuthenticated && <NavBar/>}
          <div className="container">
            {routes}
          </div>
