@@ -1,8 +1,9 @@
 import {createContext} from 'react'
 
-function fun () {}
+function fun () {
+}
 
-export const AuthContext = createContext ({
+export const AuthContext = createContext({
   token: null,
   userId: null,
   login: fun,

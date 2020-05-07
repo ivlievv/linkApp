@@ -20,7 +20,7 @@ export const AuthPage = () => {
 
   useEffect(() => { //делает активными инпуты на странице авторизации
     window.M.updateTextFields()
-  },[])
+  }, [])
 
   const changeHandler = event => {
     setForm({...form, [event.target.name]: event.target.value}) // с помощью оператора ...form разварациваю все что касаеться form, дальше для того чтобы определить какое именно поле я меняю я обращаюсь к [-||-]: -||-
@@ -38,7 +38,8 @@ export const AuthPage = () => {
     try {
       const data = await request('/api/auth/login', 'POST', {...form}) // получаю data которая прилетает с сервера и жду пока выполниться request с необходимыми параметрами ('api/auth/register', 'POST', {...form}) 1. url 'api/auth/register' - которую осуществили на бэке. 2. это метод. 3. передаем ту дату которую мы хотим передать на сервер, на сервер мы должны передавать имейл и пароль, по жтому разварачиваем ...form
       auth.login(data.token, data.userId)
-    } catch (e) {}
+    } catch (e) {
+    }
   }
 
 
