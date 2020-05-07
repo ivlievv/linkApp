@@ -26,9 +26,14 @@ export const AuthPage = () => {
     try {
       const data = await request('api/auth/register', 'POST', {...form}) // получаю data которая прилетает с сервера и жду пока выполниться request с необходимыми параметрами ('api/auth/register', 'POST', {...form}) 1. url 'api/auth/register' - которую осуществили на бэке. 2. это метод. 3. передаем ту дату которую мы хотим передать на сервер, на сервер мы должны передавать имейл и пароль, по жтому разварачиваем ...form
       message(data.message)
-    } catch (e) {
+    } catch (e) {}
+  }
 
-    }
+  const loginHandler = async () => {
+    try {
+      const data = await request('api/auth/login', 'POST', {...form}) // получаю data которая прилетает с сервера и жду пока выполниться request с необходимыми параметрами ('api/auth/register', 'POST', {...form}) 1. url 'api/auth/register' - которую осуществили на бэке. 2. это метод. 3. передаем ту дату которую мы хотим передать на сервер, на сервер мы должны передавать имейл и пароль, по жтому разварачиваем ...form
+      message(data.message)
+    } catch (e) {}
   }
 
 
@@ -67,6 +72,7 @@ export const AuthPage = () => {
                 className="btn yellow darken-4"
                 style={{marginRight: 10}}
                 disabled={loading}
+                onClick={loginHandler}
              >
                Войти
              </span>
