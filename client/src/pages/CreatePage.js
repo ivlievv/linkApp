@@ -14,7 +14,7 @@ export const CreatePage = () => {
   }, [])
 
   const pressHandler = async event => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter'|| 'onClick') {
       try {
         const data = await request('/api/link/generate',
            'POST', {from: link},
@@ -37,6 +37,7 @@ export const CreatePage = () => {
               onChange={e => setLink(e.target.value)}
               onKeyPress={pressHandler} //при нажатии на Enter будет формироватся ссылка
            />
+           <button onClick={pressHandler}>Click</button>
            <label htmlFor="link">Введите ссылку</label>
          </div>
        </div>
