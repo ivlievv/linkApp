@@ -5,6 +5,7 @@ const storageName = 'userData'
 export const useAuth = () => { // в этой функции я экспортирую различние методы позволяющие пользователю зайти в систему либо выйти с неё
 
   const [token, setToken] = useState(null)
+  const [ready, setReady] = useState(false)
   const [userId, setUserId] = useState(null)
 
   const login = useCallback((jwtToken, id) => {
@@ -29,9 +30,10 @@ export const useAuth = () => { // в этой функции я экспорти
     if (data && data.token){ // если дата не null и в ней есть поле token то тогда вызыва функ. login(-||-)
       login(data.token, data.userId)
     }
+    setReady(true)
   }, [login]) // как зависимоть дя даного useEffect указываю метод [login] потому что я его здесь исользую, и именно для этого я и оборачивал login в useCallback
 
-  return {login, logout, token, userId}
+  return {login, logout, token, userId, ready}
 }
 
 /*

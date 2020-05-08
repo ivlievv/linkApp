@@ -5,11 +5,16 @@ import {useAuth} from "./hooks/auth.hook";
 import {AuthContext} from "./context/AuthContext";
 import 'materialize-css';
 import {NavBar} from "./components/Navbar";
+import {Loader} from "./components/Loader";
 
 function App () {
-  const {token, login, logout, userId } = useAuth() // теперь жно передавать эти данные {token, login, userId, logout} через контекст всему нашему приложению
+  const {token, login, logout, userId, ready } = useAuth() // теперь жно передавать эти данные {token, login, userId, logout} через контекст всему нашему приложению
   const isAuthenticated = !!token // это говорит о том зарегистрирован сейчас пользователь или нет, а это опредиляется по аличию токена, !!- значит что я его привожу к bool
   const routes = useRoutes(isAuthenticated)
+
+  if(!ready){
+    return <Loader/>
+  }
   return (
      <AuthContext.Provider value={{ // см. коментарии в ./context/AuthContext
        token, login, logout, userId, isAuthenticated
